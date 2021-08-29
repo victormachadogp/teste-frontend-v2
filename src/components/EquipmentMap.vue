@@ -1,6 +1,6 @@
 <template>
-  <div class="container" style="height: 600px; width: 100%">
-    <div style="height: 200px; overflow: auto">
+  <div class="container">
+    <div class="text-field">
       <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
     </div>
@@ -9,20 +9,22 @@
       :zoom="zoom"
       :center="center"
       :options="mapOptions"
-      style="height: 80%"
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-marker
-        v-for="(equipment, index) in jsonData"
+        v-for="(equipment, index) in equipmentPositionHistory"
         :key="index"
         :lat-lng="
-          latLgn(equipment.positions[index].lat, equipment.positions[index].lon)
+          latLgn(
+            equipment.positions[equipment.positions.length - 1].lat,
+            equipment.positions[equipment.positions.length - 1].lon
+          )
         "
       >
         <l-popup>
-          <div @click="innerClick">I am a popup</div>
+          <div @click="innerClick()">{{ equipmentActualState }}</div>
         </l-popup>
       </l-marker>
     </l-map>
@@ -32,10 +34,11 @@
 <script>
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
-import jsonData from "../static/data/equipmentPositionHistory.json";
+import equipmentPositionHistory from "../static/data/equipmentPositionHistory.json";
+import equipmentStateHistory from "../static/data/equipmentStateHistory.json";
 
 export default {
-  name: "Example",
+  name: "EquipmentMap",
   components: {
     LMap,
     LTileLayer,
@@ -44,16 +47,17 @@ export default {
   },
   data() {
     return {
-      jsonData,
+      equipmentPositionHistory,
+      equipmentStateHistory,
+      equipmentActualState: "Um estado aqui",
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       withPopup: latLng(-19.126536, -45.947756),
-      currentZoom: 13,
+      currentZoom: 11,
       currentCenter: latLng(-19.126536, -45.947756),
-      showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5,
       },
@@ -66,20 +70,14 @@ export default {
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
 
-      const data = this.jsonData.map((item) => {
-        let lat = item.positions[0].lat;
-        let lon = item.positions[0].lon;
-        console.log(`The lat is: ${lat} and the long is: ${lon}`);
-      });
-
-      console.log(data);
+      // const data = this.equipmentStateHistory.map((item) => {
+      //   console.log(item);
+      // });
     },
     centerUpdate(center) {
       this.currentCenter = center;
     },
-    innerClick() {
-      alert("Click!");
-    },
+    innerClick() {},
   },
 };
 </script>
@@ -88,6 +86,11 @@ export default {
 .container {
   height: 600px;
   width: 100%;
+}
+
+.text-field {
+  height: 200px;
+  overflow: auto;
 }
 
 .map {
