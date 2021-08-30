@@ -1,17 +1,7 @@
 <template>
   <div class="container-all">
-    <div class="relative">
-      <div class="bg-gray-400 h-56 relative expanded-width">
-        <img class="w-full h-full" src="../assets/subtle-prism.svg"/>
-      </div>
-      <div class="flex justify-center xl:justify-start ">
-        <div class="bg-white w-48 h-18 absolute position-image rounded-md p-5">
-          <img class="w-36" src="../assets/aiko.png" alt="">
-        </div>
-      </div>
-    </div>
 
-
+  
     <div class="text-field mt-12">
       <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
@@ -23,7 +13,6 @@
       </div>
     </div>
     <l-map
-      class="map"
       :zoom="zoom"
       :center="center"
       :options="mapOptions"
@@ -132,17 +121,9 @@ export default {
   width: 100%;
 }
 
-.position-image {
-  bottom: -30px;
-}
-
 .text-field {
   height: 200px;
   overflow: auto;
-}
-
-.map {
-  height: 80%;
 }
 
 .equipment-state-color {
