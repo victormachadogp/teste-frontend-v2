@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-all">
     <div class="text-field">
       <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.container-all {
   height: 600px;
   width: 100%;
 }
