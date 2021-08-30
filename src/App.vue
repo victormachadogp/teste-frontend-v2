@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="container max-w-7xl mx-auto" id="app">
     <EquipmentMap />
   </div>
 </template>
@@ -15,4 +15,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@media (min-width: 1152px) {
+  .expanded-width {
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
+  }
+}
+</style>
