@@ -14,6 +14,7 @@
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-marker
+        @click="showState(index)"
         v-for="(equipment, index) in equipmentPositionHistory"
         :key="index"
         :lat-lng="
@@ -24,7 +25,8 @@
         "
       >
         <l-popup>
-          <div @click="innerClick()">{{ equipmentActualState }}</div>
+          <div @click="innerClick()">{{ equipmentStateInfo }}</div>
+          <div class="aColor" :style="equipColor"></div>
         </l-popup>
       </l-marker>
     </l-map>
@@ -36,6 +38,7 @@ import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import equipmentPositionHistory from "../static/data/equipmentPositionHistory.json";
 import equipmentStateHistory from "../static/data/equipmentStateHistory.json";
+import equipmentState from "../static/data/equipmentState.json";
 
 export default {
   name: "EquipmentMap",
@@ -49,7 +52,13 @@ export default {
     return {
       equipmentPositionHistory,
       equipmentStateHistory,
+      equipmentState,
+      equipColor: {
+        backgroundColor: null,
+      },
+      // Mude isso
       equipmentActualState: "Um estado aqui",
+      equipmentStateInfo: null,
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -69,15 +78,27 @@ export default {
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
+      console.log;
 
-      // const data = this.equipmentStateHistory.map((item) => {
-      //   console.log(item);
-      // });
+      // console.log(items);
     },
     centerUpdate(center) {
       this.currentCenter = center;
     },
     innerClick() {},
+    showState(index) {
+      // Codigo que me devolve o ultimo estado do equipamento que eu clicar
+      this.equipmentActualState =
+        this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
+
+      // Atribuir dados para cada equipamento
+      this.equipmentState.forEach((item) => {
+        if (item.id === this.equipmentActualState) {
+          this.equipColor.backgroundColor = item.color;
+          this.equipmentStateInfo = item.name;
+        }
+      });
+    },
   },
 };
 </script>
@@ -95,5 +116,12 @@ export default {
 
 .map {
   height: 80%;
+}
+
+.aColor {
+  width: 10px;
+  height: 10px;
+  background-color: gray;
+  border-radius: 50%;
 }
 </style>
