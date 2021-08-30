@@ -25,8 +25,10 @@
         "
       >
         <l-popup>
-          <div @click="innerClick()">{{ equipmentStateInfo }}</div>
-          <div class="aColor" :style="equipColor"></div>
+          <div class="equipment-state-color" :style="equipColor"></div>
+          <div class="equipment-state-text" @click="innerClick()">
+            {{ equipmentStateInfo }}
+          </div>
         </l-popup>
       </l-marker>
     </l-map>
@@ -57,7 +59,7 @@ export default {
         backgroundColor: null,
       },
       // Mude isso
-      equipmentActualState: "Um estado aqui",
+      currentEquipmentStateId: null,
       equipmentStateInfo: null,
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
@@ -78,9 +80,6 @@ export default {
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
-      console.log;
-
-      // console.log(items);
     },
     centerUpdate(center) {
       this.currentCenter = center;
@@ -88,12 +87,12 @@ export default {
     innerClick() {},
     showState(index) {
       // Codigo que me devolve o ultimo estado do equipamento que eu clicar
-      this.equipmentActualState =
+      this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
 
       // Atribuir dados para cada equipamento
       this.equipmentState.forEach((item) => {
-        if (item.id === this.equipmentActualState) {
+        if (item.id === this.currentEquipmentStateId) {
           this.equipColor.backgroundColor = item.color;
           this.equipmentStateInfo = item.name;
         }
@@ -118,10 +117,15 @@ export default {
   height: 80%;
 }
 
-.aColor {
+.equipment-state-color {
   width: 10px;
   height: 10px;
   background-color: gray;
   border-radius: 50%;
+  margin: 0 auto;
+}
+
+.equipment-state-text {
+  text-align: center;
 }
 </style>
