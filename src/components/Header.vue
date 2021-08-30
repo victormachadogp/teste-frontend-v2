@@ -1,14 +1,12 @@
 <template>
-    <div class="relative">
-      <div class="bg-gray-400 h-56 relative expanded-width">
-        <img class="w-full h-full" src="../assets/subtle-prism.svg"/>
-      </div>
-      <div class="flex justify-center xl:justify-start ">
-        <div class="bg-white w-48 h-18 absolute position-image rounded-md p-5">
-          <img class="w-36" src="../assets/aiko.png" alt="">
+    <header class="relative" >
+        <div class="expanded-width overflow-x-hidden relative">
+            <div class="bg-gray-400 background-image"></div>
         </div>
-      </div>
-    </div>
+        <div class="absolute logo-container bg-white p-5 rounded-md">
+            <img class="w-36" src="../assets/aiko.png" alt="">
+        </div>
+    </header>
 </template>
 
 <script>
@@ -18,5 +16,25 @@ export default {};
 <style scoped>
 .position-image {
   bottom: -30px;
+}
+
+.expanded-width {
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  left: 49.3%;
+}
+
+.background-image {
+  background-image: url(../assets/subtle-prism.svg);
+  height: 150px;
+}
+
+.test {
+  overflow-x: hidden;
+}
+
+.logo-container {
+  bottom: -35px;
 }
 </style>
