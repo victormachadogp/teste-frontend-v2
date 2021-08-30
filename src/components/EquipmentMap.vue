@@ -3,6 +3,12 @@
     <div class="text-field">
       <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
+
+      <div v-for="(item, index) in currentStatePositionsHistory" :key="index">
+        <span>{{ item.date }}</span>
+        <span>{{ item.lat }}</span>
+        <span>{{ item.lon }}</span>
+      </div>
     </div>
     <l-map
       class="map"
@@ -60,6 +66,7 @@ export default {
       },
       // Mude isso
       currentEquipmentStateId: null,
+      currentStatePositionsHistory: [],
       equipmentStateInfo: null,
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
@@ -80,12 +87,27 @@ export default {
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
+
+      console.log(equipmentPositionHistory);
     },
     centerUpdate(center) {
       this.currentCenter = center;
     },
     innerClick() {},
     showState(index) {
+      this.currentStatePositionsHistory =
+        this.equipmentPositionHistory[index].positions;
+
+      // // Date
+      // this.currentEquipmentStateHistoryDate =
+      //   this.equipmentPositionHistory[index].positions[0].date;
+      // // Lat
+      // this.currentEquipmentStateHistoryLat =
+      //   this.equipmentPositionHistory[index].positions[0].lat;
+      // // Long
+      // this.currentEquipmentStateHistoryLon =
+      //   this.equipmentPositionHistory[index].positions[0].lon;
+
       // Codigo que me devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
