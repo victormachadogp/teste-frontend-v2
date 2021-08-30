@@ -98,16 +98,6 @@ export default {
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
 
-      // // Date
-      // this.currentEquipmentStateHistoryDate =
-      //   this.equipmentPositionHistory[index].positions[0].date;
-      // // Lat
-      // this.currentEquipmentStateHistoryLat =
-      //   this.equipmentPositionHistory[index].positions[0].lat;
-      // // Long
-      // this.currentEquipmentStateHistoryLon =
-      //   this.equipmentPositionHistory[index].positions[0].lon;
-
       // Codigo que me devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
