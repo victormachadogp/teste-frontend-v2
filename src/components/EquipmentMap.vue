@@ -1,6 +1,6 @@
 <template>
-<div class="flex flex-col md:flex-row mt-12">
-    <div class="container-map w-full px-5">
+<div class="flex flex-col md:justify-between lg:flex-row my-16 px-5 lg:px-0">
+    <div class="container-map w-full  mb-10 lg:mb-0">
       <l-map
         :zoom="zoom"
         :center="center"
@@ -22,7 +22,7 @@
         >
           <l-popup>
             <div class="equipment-state-color" :style="equipColor"></div>
-            <div class="equipment-state-text" @click="innerClick()">
+            <div class="text-center" @click="innerClick()">
               {{ equipmentStateInfo }}
             </div>
           </l-popup>
@@ -33,10 +33,11 @@
     <div >
         <!-- <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
         <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p> -->
-        <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
         
-        <div class="mt-5 max-h-96 overflow-y-auto hide-scroll rounded-md bg-white border history-container">
-          <p v-if="!ishistoryPositionOpen" class="text-xs my-3 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico</p>
+        <div class="max-h-96 w-full lg:w-96 overflow-y-auto py-3 scroll-style rounded-md bg-white border history-container">
+        <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
+        <div class="border-b border-gray-300 my-3"></div>
+          <p v-if="!ishistoryPositionOpen" class="text-xs mt-5 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
 
           <div class="my-4 text-center max-w-xs mx-auto bg-white border shadow-md " v-for="(item, index) in currentStatePositionsHistory" :key="index">
             <p class="text-sm py-1 text-gray-600">{{ item.date }}</p>
@@ -118,7 +119,7 @@ export default {
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
 
-      // Codigo que me devolve o ultimo estado do equipamento que eu clicar
+      // Devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
 
@@ -148,10 +149,6 @@ export default {
   margin: 0 auto;
 }
 
-.equipment-state-text {
-  text-align: center;
-}
-
 .text-small {
   font-size: 0.65rem;
 }
@@ -164,21 +161,21 @@ export default {
   background-color: #3f90cb;
 }
 
-.hide-scroll::-webkit-scrollbar {
+.scroll-style::-webkit-scrollbar {
   width: 0.5em;
 }
 
-.hide-scroll::-webkit-scrollbar-track {
+.scroll-style::-webkit-scrollbar-track {
   background-color: rgb(197, 197, 197);
 }
 
-.hide-scroll::-webkit-scrollbar-thumb {
+.scroll-style::-webkit-scrollbar-thumb {
   background-color: #52bbdc;
 }
 
 .history-container {
-  min-width: 400px;
-  min-height: 500px;
+  /* min-width: 300px; */
+  min-height: 600px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
 }
