@@ -35,26 +35,29 @@
         <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p> -->
         <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
         
-        <div class="mt-5 max-h-96 overflow-y-auto rounded-md bg-white border history-container">
-          <p class="text-xs my-3 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico</p>
+        <div class="mt-5 max-h-96 overflow-y-auto hide-scroll rounded-md bg-white border history-container">
+          <p v-if="!ishistoryPositionOpen" class="text-xs my-3 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico</p>
 
           <div class="my-4 text-center max-w-xs mx-auto bg-white border shadow-md " v-for="(item, index) in currentStatePositionsHistory" :key="index">
             <p class="text-sm py-1 text-gray-600">{{ item.date }}</p>
             <div class="flex justify-between">
-              <div class="flex">
-                <div class="bg-purple-300 text-small text-purple-900 flex items-center justify-center rounded-bl-md w-10 h-7">LAT</div>
-                <span>{{ item.lat }}</span>
+              <div class="flex items-center">
+                <div class="text-small text-white bg-variant-color-1 flex items-center justify-center rounded-bl-md w-10 h-7">LAT</div>
+                <span class="text-sm ml-3">{{ item.lat }}</span>
               </div>
-              <div class="flex">
-                <span>{{ item.lon }}</span>
-                <div class="bg-indigo-300 text-small text-indigo-900 flex items-center justify-center rounded-br-md w-10 h-7">LON</div>
+              <div class="flex items-center">
+                <span class="text-sm mr-3">{{ item.lon }}</span>
+                <div class="text-small text-white bg-variant-color-2 flex items-center justify-center rounded-br-md w-10 h-7">LON</div>
               </div>
             </div>
           </div>
         </div>
       </div>
   </div>
+
 </template>
+
+
 
 <script>
 import { latLng } from "leaflet";
@@ -81,6 +84,7 @@ export default {
       },
       // Mude isso
       currentEquipmentStateId: null,
+      ishistoryPositionOpen: false,
       currentStatePositionsHistory: [],
       equipmentStateInfo: null,
       zoom: 11,
@@ -110,6 +114,7 @@ export default {
     },
     innerClick() {},
     showState(index) {
+      this.ishistoryPositionOpen = true;
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
 
@@ -149,6 +154,26 @@ export default {
 
 .text-small {
   font-size: 0.65rem;
+}
+
+.bg-variant-color-1 {
+  background-color: #52bbdc;
+}
+
+.bg-variant-color-2 {
+  background-color: #3f90cb;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.hide-scroll::-webkit-scrollbar-track {
+  background-color: rgb(197, 197, 197);
+}
+
+.hide-scroll::-webkit-scrollbar-thumb {
+  background-color: #52bbdc;
 }
 
 .history-container {
