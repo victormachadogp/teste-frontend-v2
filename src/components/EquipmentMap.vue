@@ -1,6 +1,6 @@
 <template>
-<div class="flex flex-col md:justify-between lg:flex-row my-16 px-5 lg:px-0">
-    <div class="container-map w-full  mb-10 lg:mb-0">
+<div class="flex flex-col lg:justify-between lg:flex-row my-16 px-5 lg:px-0">
+    <div class="container-map w-full lg:pr-10 mb-10 lg:mb-0 order-2">
       <l-map
         :zoom="zoom"
         :center="center"
@@ -30,16 +30,16 @@
       </l-map>
     </div>
 
-    <div >
+    <div class="mb-10 lg:mb-0 lg:order-2" >
         <!-- <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
         <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p> -->
         
-        <div class="max-h-96 w-full lg:w-96 overflow-y-auto py-3 scroll-style rounded-md bg-white border history-container">
+        <div class="max-h-48 sm:max-h-96 w-full lg:w-96 overflow-y-auto py-3 scroll-style rounded-md bg-white border history-container">
         <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
         <div class="border-b border-gray-300 my-3"></div>
           <p v-if="!ishistoryPositionOpen" class="text-xs mt-5 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
 
-          <div class="my-4 text-center max-w-xs mx-auto bg-white border shadow-md " v-for="(item, index) in currentStatePositionsHistory" :key="index">
+          <div class="my-4 text-center max-w-xs mx-auto v-for-container bg-white border shadow-md " v-for="(item, index) in currentStatePositionsHistory" :key="index">
             <p class="text-sm py-1 text-gray-600">{{ item.date }}</p>
             <div class="flex justify-between">
               <div class="flex items-center">
@@ -138,7 +138,6 @@ export default {
 <style scoped>
 .container-map {
   height: 600px;
-  /* width: 60%; */
 }
 
 .equipment-state-color {
@@ -174,9 +173,20 @@ export default {
 }
 
 .history-container {
-  /* min-width: 300px; */
-  min-height: 600px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
+}
+
+@media (max-width: 390x) {
+  .v-for-container {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .history-container {
+    min-height: 600px !important;
+  }
 }
 </style>
