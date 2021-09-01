@@ -22,7 +22,7 @@
         >
           <l-popup>
             <div class="equipment-state-color" :style="equipColor"></div>
-            <div class="text-center" @click="innerClick()">
+            <div class="text-center">
               {{ equipmentStateInfo }}
             </div>
           </l-popup>
@@ -86,7 +86,7 @@ export default {
       // Mude isso
       currentEquipmentStateId: null,
       ishistoryPositionOpen: false,
-      currentStatePositionsHistory: [],
+      currentStatePositionsHistory: null,
       equipmentStateInfo: null,
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
@@ -107,8 +107,6 @@ export default {
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
-
-      console.log(equipmentPositionHistory);
     },
     centerUpdate(center) {
       this.currentCenter = center;
@@ -116,8 +114,28 @@ export default {
     innerClick() {},
     showState(index) {
       this.ishistoryPositionOpen = true;
+
+      // Mostra os dados no historico
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
+
+      if (
+        this.equipmentPositionHistory[index].positions[0].date.endsWith("h")
+      ) {
+        return;
+      } else {
+        // // Tratando dados dos dias
+        this.currentStatePositionsHistory.forEach((item) => {
+          const date = new Date(item.date).toLocaleDateString("pt-Br", {
+            dateStyle: "short",
+          });
+          const time = new Date(item.date).toLocaleTimeString("pt-Br", {
+            timeStyle: "short",
+          });
+
+          item.date = `${date} ${time}h`;
+        });
+      }
 
       // Devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
