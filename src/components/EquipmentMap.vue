@@ -96,6 +96,18 @@ export default {
     showState(index) {
       this.isHistoryPositionOpen = true;
 
+      // Devolve o ultimo estado do equipamento que eu clicar
+      this.currentEquipmentStateId =
+        this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
+
+      // Atribuir dados para cada equipamento
+      this.equipmentState.forEach((item) => {
+        if (item.id === this.currentEquipmentStateId) {
+          this.equipColor.backgroundColor = item.color;
+          this.equipmentStateInfo = item.name;
+        }
+      });
+
       // Mostra os dados no historico
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
@@ -117,18 +129,6 @@ export default {
           item.date = `${date} ${time}h`;
         });
       }
-
-      // Devolve o ultimo estado do equipamento que eu clicar
-      this.currentEquipmentStateId =
-        this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
-
-      // Atribuir dados para cada equipamento
-      this.equipmentState.forEach((item) => {
-        if (item.id === this.currentEquipmentStateId) {
-          this.equipColor.backgroundColor = item.color;
-          this.equipmentStateInfo = item.name;
-        }
-      });
     },
   },
 };
