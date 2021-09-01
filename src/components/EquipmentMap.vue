@@ -10,7 +10,7 @@
       >
         <l-tile-layer :url="url" :attribution="attribution" />
         <l-marker
-          @click="showState(index)"
+          @click="handleCurrentMarkerClick(index)"
           v-for="(equipment, index) in equipmentPositionHistory"
           :key="index"
           :lat-lng="
@@ -92,14 +92,19 @@ export default {
     centerUpdate(center) {
       this.currentCenter = center;
     },
-    innerClick() {},
-    showState(index) {
-      this.isHistoryPositionOpen = true;
-
+    handleCurrentMarkerClick(index) {
+      this.setCurrentStateId(index);
+      this.showEquipmentState();
+      this.toggleHistory();
+      this.showEquipmentHistory(index);
+      this.formatCurrentEquipmentDate(index);
+    },
+    setCurrentStateId(index) {
       // Devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
-
+    },
+    showEquipmentState() {
       // Atribuir dados para cada equipamento
       this.equipmentState.forEach((item) => {
         if (item.id === this.currentEquipmentStateId) {
@@ -107,11 +112,16 @@ export default {
           this.equipmentStateInfo = item.name;
         }
       });
-
+    },
+    toggleHistory() {
+      this.isHistoryPositionOpen = true;
+    },
+    showEquipmentHistory(index) {
       // Mostra os dados no historico
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
-
+    },
+    formatCurrentEquipmentDate(index) {
       if (
         this.equipmentPositionHistory[index].positions[0].date.endsWith("h")
       ) {
