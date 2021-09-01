@@ -30,7 +30,7 @@
       </l-map>
     </div>
 
-   <state-history :isHistoryOpen="isHistoryPositionOpen" :currentcurrentStatePositions="currentStatePositionsHistory"/>
+   <state-history :equipmentModelName="currentEquipmentModelName" :equipmentName="currentEquipmentName" :isHistoryOpen="isHistoryPositionOpen" :currentcurrentStatePositions="currentStatePositionsHistory"/>
    
   </div>
 
@@ -44,6 +44,8 @@ import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import equipmentPositionHistory from "../static/data/equipmentPositionHistory.json";
 import equipmentStateHistory from "../static/data/equipmentStateHistory.json";
 import equipmentState from "../static/data/equipmentState.json";
+import equipment from "../static/data/equipment.json";
+import equipmentModel from "../static/data/equipmentModel.json";
 import StateHistory from "./StateHistory.vue";
 
 export default {
@@ -60,6 +62,8 @@ export default {
       equipmentPositionHistory,
       equipmentStateHistory,
       equipmentState,
+      equipment,
+      equipmentModel,
       equipColor: {
         backgroundColor: null,
       },
@@ -68,6 +72,9 @@ export default {
       isHistoryPositionOpen: false,
       currentStatePositionsHistory: null,
       equipmentStateInfo: null,
+      currentEquipmentModelId: null,
+      currentEquipmentName: null,
+      currentEquipmentModelName: null,
       zoom: 11,
       center: latLng(-19.066661, -45.96405),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -98,6 +105,8 @@ export default {
       this.toggleHistory();
       this.showEquipmentHistory(index);
       this.formatCurrentEquipmentDate(index);
+      this.setCurrentEquipmentInfo(index);
+      this.setEquipmentName();
     },
     setCurrentStateId(index) {
       // Devolve o ultimo estado do equipamento que eu clicar
@@ -139,6 +148,22 @@ export default {
           item.date = `${date} ${time}h`;
         });
       }
+    },
+    setCurrentEquipmentInfo(index) {
+      this.equipment.forEach((item) => {
+        if (item.id === this.equipmentStateHistory[index].equipmentId) {
+          this.currentEquipmentModelId = item.equipmentModelId;
+          this.currentEquipmentName = item.name;
+        }
+      });
+      index;
+    },
+    setEquipmentName() {
+      this.equipmentModel.forEach((equipment) => {
+        if (equipment.id === this.currentEquipmentModelId) {
+          this.currentEquipmentModelName = equipment.name;
+        }
+      });
     },
   },
 };

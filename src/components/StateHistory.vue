@@ -7,6 +7,9 @@
         <div class="max-h-48 sm:max-h-96 w-full lg:w-96 overflow-y-auto py-3 scroll-style rounded-md bg-white border history-container">
         <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
         <div class="border-b border-gray-300 my-3"></div>
+        <div v-if="isHistoryOpen" class="flex justify-center">
+            <p><span class="font-semibold text-gray-700">{{equipmentModelName}}</span> - {{equipmentName}}</p>
+        </div>
           <p v-if="!isHistoryOpen" class="text-xs mt-5 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
           
 
@@ -35,6 +38,12 @@ export default {
     },
     isHistoryOpen: {
       type: Boolean,
+    },
+    equipmentName: {
+      type: String,
+    },
+    equipmentModelName: {
+      type: String,
     },
   },
 };
