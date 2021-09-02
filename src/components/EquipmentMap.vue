@@ -5,8 +5,6 @@
         :zoom="zoom"
         :center="center"
         :options="mapOptions"
-        @update:center="centerUpdate"
-        @update:zoom="zoomUpdate"
       >
         <l-tile-layer :url="url" :attribution="attribution" />
         <l-marker
@@ -21,7 +19,7 @@
           "
         >
           <l-popup>
-            <div class="equipment-state-color" :style="equipColor"></div>
+            <div class="equipment-state-color" :style="equipmentColor"></div>
             <div class="text-center">
               {{ equipmentStateInfo }}
             </div>
@@ -62,12 +60,11 @@ export default {
       equipmentPositionHistory,
       equipmentStateHistory,
       equipmentState,
-      equipment,
       equipmentModel,
-      equipColor: {
+      equipment,
+      equipmentColor: {
         backgroundColor: null,
       },
-      // Mude isso
       currentEquipmentStateId: null,
       isHistoryPositionOpen: false,
       currentStatePositionsHistory: null,
@@ -76,14 +73,11 @@ export default {
       currentEquipmentName: null,
       currentEquipmentModelName: null,
       zoom: 11,
-      center: latLng(-19.066661, -45.96405),
+      center: latLng(-19.104946, -45.98877),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      // Apagar esses 3 caras se não for usar
-      withPopup: latLng(-19.126536, -45.947756),
       currentZoom: 11,
-      currentCenter: latLng(-19.126536, -45.947756),
       mapOptions: {
         zoomSnap: 0.5,
       },
@@ -93,15 +87,9 @@ export default {
     latLgn(lat, lng) {
       return latLng(lat, lng);
     },
-    zoomUpdate(zoom) {
-      this.currentZoom = zoom;
-    },
-    centerUpdate(center) {
-      this.currentCenter = center;
-    },
     handleCurrentMarkerClick(index) {
       this.setCurrentStateId(index);
-      this.showEquipmentState();
+      this.showCurrentEquipmentState();
       this.toggleHistory();
       this.showEquipmentHistory(index);
       this.formatCurrentEquipmentDate(index);
@@ -109,15 +97,13 @@ export default {
       this.setEquipmentName();
     },
     setCurrentStateId(index) {
-      // Devolve o ultimo estado do equipamento que eu clicar
       this.currentEquipmentStateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
     },
-    showEquipmentState() {
-      // Atribuir dados para cada equipamento
+    showCurrentEquipmentState() {
       this.equipmentState.forEach((item) => {
         if (item.id === this.currentEquipmentStateId) {
-          this.equipColor.backgroundColor = item.color;
+          this.equipmentColor.backgroundColor = item.color;
           this.equipmentStateInfo = item.name;
         }
       });
@@ -126,7 +112,6 @@ export default {
       this.isHistoryPositionOpen = true;
     },
     showEquipmentHistory(index) {
-      // Mostra os dados no historico
       this.currentStatePositionsHistory =
         this.equipmentPositionHistory[index].positions;
     },
@@ -136,7 +121,6 @@ export default {
       ) {
         return;
       } else {
-        // // Tratando dados dos dias
         this.currentStatePositionsHistory.forEach((item) => {
           const date = new Date(item.date).toLocaleDateString("pt-Br", {
             dateStyle: "short",
