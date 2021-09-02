@@ -12,7 +12,7 @@
           v-for="(equipment, index) in equipmentPositionHistory"
           :key="index"
           :lat-lng="
-            latLgn(
+            latitudeAndLongitude(
               equipment.positions[equipment.positions.length - 1].lat,
               equipment.positions[equipment.positions.length - 1].lon,
             )
@@ -84,7 +84,7 @@ export default {
     };
   },
   methods: {
-    latLgn(lat, lng) {
+    latitudeAndLongitude(lat, lng) {
       return latLng(lat, lng);
     },
     handleMarkerClick(index) {
