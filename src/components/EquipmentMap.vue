@@ -42,7 +42,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import equipmentPositionHistory from "../static/data/equipmentPositionHistory.json";
 import equipmentStateHistory from "../static/data/equipmentStateHistory.json";
 import equipmentState from "../static/data/equipmentState.json";
-import equipment from "../static/data/equipment.json";
+import equipments from "../static/data/equipment.json";
 import equipmentModel from "../static/data/equipmentModel.json";
 import StateHistory from "./StateHistory.vue";
 
@@ -61,7 +61,7 @@ export default {
       equipmentStateHistory,
       equipmentState,
       equipmentModel,
-      equipment,
+      equipments,
       equipmentColor: {
         backgroundColor: null,
       },
@@ -134,7 +134,7 @@ export default {
       }
     },
     setCurrentEquipmentInfo(index) {
-      this.equipment.forEach((item) => {
+      this.equipments.forEach((item) => {
         if (item.id === this.equipmentStateHistory[index].equipmentId) {
           this.currentEquipmentModelId = item.equipmentModelId;
           this.currentEquipmentName = item.name;
