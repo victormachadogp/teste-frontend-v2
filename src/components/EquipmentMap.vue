@@ -8,7 +8,7 @@
       >
         <l-tile-layer :url="url" :attribution="attribution" />
         <l-marker
-          @click="handleCurrentMarkerClick(index)"
+          @click="handleMarkerClick(index)"
           v-for="(equipment, index) in equipmentPositionHistory"
           :key="index"
           :lat-lng="
@@ -19,16 +19,16 @@
           "
         >
           <l-popup>
-            <div class="equipment-state-color" :style="equipmentColor"></div>
+            <div class="equipment-state-color" :style="currentEquipment"></div>
             <div class="text-center">
-              {{ equipmentStateInfo }}
+              {{ currentEquipment.stateName }}
             </div>
           </l-popup>
         </l-marker>
       </l-map>
     </div>
 
-   <state-history :equipmentModelName="currentEquipmentModelName" :equipmentName="currentEquipmentName" :isHistoryOpen="isHistoryPositionOpen" :currentcurrentStatePositions="currentStatePositionsHistory"/>
+   <state-history :currentEquipment="currentEquipment"/>
    
   </div>
 
@@ -62,16 +62,16 @@ export default {
       equipmentState,
       equipmentModel,
       equipments,
-      equipmentColor: {
+      currentEquipment: {
+        id: null,
+        stateId: null,
+        statePositionsHistory: null,
+        stateName: null,
+        modelId: null,
+        modelName: null,
+        name: null,
         backgroundColor: null,
       },
-      currentEquipmentStateId: null,
-      isHistoryPositionOpen: false,
-      currentStatePositionsHistory: null,
-      equipmentStateInfo: null,
-      currentEquipmentModelId: null,
-      currentEquipmentName: null,
-      currentEquipmentModelName: null,
       zoom: 11,
       center: latLng(-19.104946, -45.98877),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -87,8 +87,9 @@ export default {
     latLgn(lat, lng) {
       return latLng(lat, lng);
     },
-    handleCurrentMarkerClick(index) {
+    handleMarkerClick(index) {
       this.setCurrentStateId(index);
+      this.setCurrentEquipmentId(index);
       this.showCurrentEquipmentState();
       this.toggleHistory();
       this.showEquipmentHistory(index);
@@ -97,22 +98,25 @@ export default {
       this.setEquipmentName();
     },
     setCurrentStateId(index) {
-      this.currentEquipmentStateId =
+      this.currentEquipment.stateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
+    },
+    setCurrentEquipmentId(index) {
+      this.currentEquipment.id = this.equipmentStateHistory[index].equipmentId;
     },
     showCurrentEquipmentState() {
       this.equipmentState.forEach((item) => {
-        if (item.id === this.currentEquipmentStateId) {
-          this.equipmentColor.backgroundColor = item.color;
-          this.equipmentStateInfo = item.name;
+        if (item.id === this.currentEquipment.stateId) {
+          this.currentEquipment.backgroundColor = item.color;
+          this.currentEquipment.stateName = item.name;
         }
       });
     },
     toggleHistory() {
-      this.isHistoryPositionOpen = true;
+      this.currentEquipment.isHistoryOpen = true;
     },
     showEquipmentHistory(index) {
-      this.currentStatePositionsHistory =
+      this.currentEquipment.statePositionsHistory =
         this.equipmentPositionHistory[index].positions;
     },
     formatCurrentEquipmentDate(index) {
@@ -121,7 +125,7 @@ export default {
       ) {
         return;
       } else {
-        this.currentStatePositionsHistory.forEach((item) => {
+        this.currentEquipment.statePositionsHistory.forEach((item) => {
           const date = new Date(item.date).toLocaleDateString("pt-Br", {
             dateStyle: "short",
           });
@@ -136,16 +140,16 @@ export default {
     setCurrentEquipmentInfo(index) {
       this.equipments.forEach((item) => {
         if (item.id === this.equipmentStateHistory[index].equipmentId) {
-          this.currentEquipmentModelId = item.equipmentModelId;
-          this.currentEquipmentName = item.name;
+          this.currentEquipment.modelId = item.equipmentModelId;
+          this.currentEquipment.name = item.name;
         }
       });
       index;
     },
     setEquipmentName() {
       this.equipmentModel.forEach((equipment) => {
-        if (equipment.id === this.currentEquipmentModelId) {
-          this.currentEquipmentModelName = equipment.name;
+        if (equipment.id === this.currentEquipment.modelId) {
+          this.currentEquipment.modelName = equipment.name;
         }
       });
     },
