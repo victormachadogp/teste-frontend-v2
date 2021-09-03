@@ -39,11 +39,11 @@
 <script>
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
-import equipmentPositionHistory from "../static/data/equipmentPositionHistory.json";
-import equipmentStateHistory from "../static/data/equipmentStateHistory.json";
-import equipmentState from "../static/data/equipmentState.json";
-import equipments from "../static/data/equipment.json";
-import equipmentModel from "../static/data/equipmentModel.json";
+import equipmentPositionHistory from "@/static/data/equipmentPositionHistory.json";
+import equipmentStateHistory from "@/static/data/equipmentStateHistory.json";
+import equipmentState from "@/static/data/equipmentState.json";
+import equipments from "@/static/data/equipment.json";
+import equipmentModel from "@/static/data/equipmentModel.json";
 import StateHistory from "./StateHistory.vue";
 
 export default {
