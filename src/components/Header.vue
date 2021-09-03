@@ -6,7 +6,6 @@
                 <h1 class="text-3xl md:text-4xl font-bold">Acompanhamento Florestal</h1>
                 <p class="max-w-lg text-sm mt-5">Aplicação em Vue para visualizar dados de equipamentos em uma operação florestal.
                 </p>
-                <p class="hidden">o foco é exibir dados dos equipamentos no mapa bem como informações sobre o equipamento clicado.</p>
               </div>
             </div>
         </div>
