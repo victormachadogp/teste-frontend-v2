@@ -22,12 +22,12 @@ Para esse projeto eu utilizei:
 npm install
 ```
 
-### Compila para desenvolvimento
+### Compilar para desenvolvimento
 ```
 npm run serve
 ```
 
-### Compila para produção
+### Compilar para produção
 ```
 npm run build
 ```
