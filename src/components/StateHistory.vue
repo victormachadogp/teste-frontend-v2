@@ -6,7 +6,12 @@
         <div v-if="currentEquipment.id" class="flex justify-center">
             <p><span class="font-semibold text-gray-700">{{currentEquipment.modelName}}</span> - {{currentEquipment.name}}</p>
         </div>
-          <p v-if="!currentEquipment.id" class="text-xs mt-5 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
+        <div v-if="!currentEquipment.id">
+          <div class="flex justify-center opacity-60">
+            <img class="mt-0 hidden md:block md:mt-3 " src="@/assets/decoration.svg" alt="">
+          </div>
+            <p class="text-xs mt-3 mb-3 mx-3 md:mx-0 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
+          </div>
           
           <div class="my-4 text-center max-w-xs mx-auto v-for-container rounded-md bg-white border shadow-md " v-for="(item, index) in currentEquipment.statePositionsHistory" :key="index">
             <p class="text-sm py-1 text-gray-600">{{ item.date }}</p>
