@@ -28,7 +28,7 @@
       </l-map>
     </div>
 
-   <state-history :currentEquipment="currentEquipment"/>
+   <state-history :equipment="currentEquipment"/>
    
   </div>
 
