@@ -1,7 +1,9 @@
 <template>
-  <div class="container max-w-7xl mx-auto" id="app">
+  <div class="overflow-hidden" id="app">
+    <section class="container max-w-7xl mx-auto">
     <Header />
     <EquipmentMap />
+    </section>
   </div>
 </template>
 
