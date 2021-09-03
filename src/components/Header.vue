@@ -2,7 +2,7 @@
     <header class="relative" >
         <div class="expanded-width overflow-x-hidden relative">
             <div class="bg-gray-400 background-image bg-auto md:bg-cover bg-center">
-              <div class="container max-w-7xl mx-auto text-white pt-10 w-4/5">
+              <div class="container max-w-7xl mx-auto text-white pt-10 w-4/5 md:w-full md:ml-7 xl:mx-auto">
                 <h1 class="text-3xl md:text-4xl font-bold">Acompanhamento Florestal</h1>
                 <p class="max-w-lg text-sm mt-5">Aplicação em Vue para visualizar dados de equipamentos em uma operação florestal.
                 </p>
