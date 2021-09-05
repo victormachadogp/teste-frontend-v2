@@ -1,8 +1,16 @@
 <template>
      <div class="mb-10 lg:mb-0 lg:order-2" >   
-        <div class="max-h-48 sm:max-h-96 w-full lg:w-96 overflow-y-auto py-3 scroll-style rounded-md bg-white border history-container">
+        <div class="max-h-48 sm:max-h-96 w-full lg:w-96 overflow-y-auto pt-3 md:py-3 scroll-style rounded-md bg-white border history-container">
         <h2 class="text-center text-2xl font-medium text-gray-600 ">Histórico</h2>
-        <div class="border-b border-gray-300 my-3"></div>
+        <div class="border-b border-gray-300 mt-3"></div>
+
+
+        <div v-if="equipment.id" class="flex mb-5">
+          <p :class="{selected : equipment.showState}"  @click="$emit('changeToStates')" class="w-1/2 text-center py-1">Posições</p>
+          <p :class="{selected : !equipment.showState}" @click="$emit('changeToPositions')" class="w-1/2 text-center py-1">Estados</p>
+          
+        </div>
+
         <div v-if="equipment.id" class="flex justify-center">
             <p><span class="font-semibold text-gray-700">{{equipment.modelName}}</span> - {{equipment.name}}</p>
         </div>
@@ -12,7 +20,19 @@
           </div>
             <p class="text-xs mt-3 mb-3 mx-3 md:mx-0 text-gray-500 text-center italic">Clique em um marcador no mapa para visualizar o histórico.</p>
           </div>
-          
+
+          <div v-if="!equipment.showState">
+            
+            <div class="my-4 text-center max-w-xs mx-auto cards rounded-md bg-white border shadow-md " v-for="(item, index) in equipment.stateHistory" :key="index">
+              <div  :style="{backgroundColor: item.backgroundColor}" class="w-full rounded-tl-md rounded-tr-md h-2 bg-gray-400 "></div>
+              <p class="text-sm py-1 text-gray-600">{{item.date}}</p>
+              <div class="border-b border-gray-300"></div>
+              <p class="py-1 text-sm">{{item.name}}</p>
+            </div>
+    
+          </div>
+
+          <div v-if="equipment.showState">
           <div class="my-4 text-center max-w-xs mx-auto cards rounded-md bg-white border shadow-md " v-for="(item, index) in equipment.statePositionsHistory" :key="index">
             <p class="text-sm py-1 text-gray-600">{{ item.date }}</p>
             <div class="flex justify-between">
@@ -26,6 +46,7 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
 </template>
@@ -37,11 +58,19 @@ export default {
       type: Object,
       default: null,
     },
+    methods: {},
   },
 };
 </script>
 
 <style scoped>
+.selected {
+  background-color: #cee3ea;
+  color: #0b7497;
+  font-weight: 500;
+  border-bottom: 3px solid #3f90cb;
+}
+
 .text-small {
   font-size: 0.65rem;
 }

@@ -28,8 +28,8 @@
       </l-map>
     </div>
 
-   <state-history :equipment="currentEquipment"/>
-   
+   <state-history v-on:changeToStates="changeToStates" v-on:changeToPositions="changeToPositions" :equipment="currentEquipment"/>
+
   </div>
 
 </template>
@@ -66,10 +66,12 @@ export default {
         id: null,
         stateId: null,
         statePositionsHistory: null,
+        stateHistory: null,
         stateName: null,
         modelId: null,
         modelName: null,
         name: null,
+        showState: true,
         backgroundColor: null,
       },
       zoom: 11,
@@ -91,12 +93,15 @@ export default {
       this.setCurrentStateId(index);
       this.setCurrentEquipmentId(index);
       this.showCurrentEquipmentState();
-      this.toggleHistory();
       this.showEquipmentHistory(index);
+      this.setCurrentEquipmentStateHistory(index);
+      this.setCurrentEquipmentStateInfo();
       this.formatCurrentEquipmentDate(index);
+      this.formatCurrentEquipmenStatetDate(index);
       this.setCurrentEquipmentInfo(index);
       this.setEquipmentName();
     },
+
     setCurrentStateId(index) {
       this.currentEquipment.stateId =
         this.equipmentStateHistory[index].states.slice(-1)[0].equipmentStateId;
@@ -112,13 +117,25 @@ export default {
         }
       });
     },
-    toggleHistory() {
-      this.currentEquipment.isHistoryOpen = true;
-    },
     showEquipmentHistory(index) {
       this.currentEquipment.statePositionsHistory =
         this.equipmentPositionHistory[index].positions;
     },
+    setCurrentEquipmentStateHistory(index) {
+      this.currentEquipment.stateHistory =
+        this.equipmentStateHistory[index].states;
+    },
+    setCurrentEquipmentStateInfo() {
+      this.equipmentState.forEach((equip) => {
+        this.currentEquipment.stateHistory.forEach((item) => {
+          if (equip.id === item.equipmentStateId) {
+            item.name = equip.name;
+            item.backgroundColor = equip.color;
+          }
+        });
+      });
+    },
+
     formatCurrentEquipmentDate(index) {
       if (
         this.equipmentPositionHistory[index].positions[0].date.endsWith("h")
@@ -126,6 +143,22 @@ export default {
         return;
       } else {
         this.currentEquipment.statePositionsHistory.forEach((item) => {
+          const date = new Date(item.date).toLocaleDateString("pt-Br", {
+            dateStyle: "short",
+          });
+          const time = new Date(item.date).toLocaleTimeString("pt-Br", {
+            timeStyle: "short",
+          });
+
+          item.date = `${date} ${time}h`;
+        });
+      }
+    },
+    formatCurrentEquipmenStatetDate(index) {
+      if (this.equipmentStateHistory[index].states[0].date.endsWith("h")) {
+        return;
+      } else {
+        this.currentEquipment.stateHistory.forEach((item) => {
           const date = new Date(item.date).toLocaleDateString("pt-Br", {
             dateStyle: "short",
           });
@@ -152,6 +185,12 @@ export default {
           this.currentEquipment.modelName = equipment.name;
         }
       });
+    },
+    changeToStates() {
+      this.currentEquipment.showState = true;
+    },
+    changeToPositions() {
+      this.currentEquipment.showState = false;
     },
   },
 };
